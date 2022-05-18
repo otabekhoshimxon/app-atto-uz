@@ -2,12 +2,15 @@ package com.company.repository;
 
 import com.company.entity.Card;
 import com.company.enums.CardStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-
+@Repository
 public class CardRepository {
+    @Autowired
     private  DbConnection dbConnection;
 
 
@@ -22,9 +25,6 @@ public class CardRepository {
 
 
 
-    public void setDbConnection(DbConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }
 
     public boolean hasCardNumber(String cardNumber) {
         Connection connection = dbConnection.getConnection();
@@ -78,7 +78,7 @@ public class CardRepository {
                 double balance = resultSet.getDouble("balance");
                 String card_status = resultSet.getString("card_status");
                 Card card=new Card();
-                card.setId(id);
+                card.setId(Integer.valueOf(id));
                 card.setCardNumber(card_number);
                 card.setBalance(balance);
                 card.setCardStatus(CardStatus.valueOf(card_status));
@@ -110,7 +110,7 @@ public class CardRepository {
                 double balance = resultSet.getDouble("balance");
                 String card_status = resultSet.getString("card_status");
                 Card card=new Card();
-                card.setId(id);
+                card.setId(Integer.valueOf(id));
                 card.setCardNumber(card_number);
                 card.setBalance(balance);
                 card.setCardStatus(CardStatus.valueOf(card_status));

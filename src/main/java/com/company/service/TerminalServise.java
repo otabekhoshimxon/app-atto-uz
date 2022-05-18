@@ -7,12 +7,15 @@ import com.company.repository.TerminalRepository;
 import com.company.utils.ConsoleColors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class TerminalServise {
+    @Autowired
     private TerminalRepository terminalRepository;
+    @Autowired
     private ConsoleColors consoleColors;
 
     public void addTerminal(String s,String address) {
@@ -42,21 +45,6 @@ public class TerminalServise {
 
     }
 
-
-
-
-
-
-
-
-
-    public void setTerminalRepository(TerminalRepository terminalRepository) {
-        this.terminalRepository = terminalRepository;
-    }
-
-    public void setConsoleColors(ConsoleColors consoleColors) {
-        this.consoleColors = consoleColors;
-    }
 
     public void getAllTerminals() {
 

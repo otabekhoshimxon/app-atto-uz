@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class Card {
 
-    private String id;
+    private Integer id;
     private String cardNumber;
     private double balance;
     private CardStatus cardStatus=CardStatus.ACTIVE;

@@ -1,9 +1,12 @@
 package com.company.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
-
+@Repository
 public class AdminRepository {
-
+    @Autowired
     private DbConnection dbConnection;
 
 
@@ -24,8 +27,4 @@ public class AdminRepository {
         return false;
     }
 
-
-    public void setDbConnection(DbConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }
 }

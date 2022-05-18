@@ -1,12 +1,21 @@
 package com.company.controller;
 
+import com.company.service.TransferService;
 import com.company.utils.Scan;
 import com.company.service.MainServise;
 import com.company.utils.ConsoleColors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class MainController extends Thread {
+    @Autowired
     private ConsoleColors consoleColors;
+    @Autowired
     private MainServise mainServise;
+    @Autowired
+    private TransferService transferService;
+
 
     @Override
     public void run() {
@@ -51,19 +60,11 @@ public class MainController extends Thread {
     }
 
     public void getTransferPage() {
-        mainServise.transfer();
+        transferService.transfer();
     }
 
     public void getFillBalancePage() {
         mainServise.fillBalance();
     }
 
-
-    public void setConsoleColors(ConsoleColors consoleColors) {
-        this.consoleColors = consoleColors;
-    }
-
-    public void setMainServise(MainServise mainServise) {
-        this.mainServise = mainServise;
-    }
 }

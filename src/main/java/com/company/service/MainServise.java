@@ -4,14 +4,18 @@ import com.company.controller.AdminController;
 import com.company.repository.AdminRepository;
 import com.company.utils.ConsoleColors;
 import com.company.utils.Scan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
-
+@Service
 public class MainServise {
-
+    @Autowired
     private ConsoleColors consoleColors;
+    @Autowired
     private AdminRepository adminRepository;
+    @Autowired
     private AdminController adminController;
     public void login() {
         consoleColors.print(ConsoleColors.GREEN_BOLD,"ENTER LOGIN ");
@@ -54,17 +58,6 @@ public class MainServise {
     }
 
 
-    public void setAdminController(AdminController adminController) {
-        this.adminController = adminController;
-    }
-
-    public void setAdminRepository(AdminRepository adminRepository) {
-        this.adminRepository = adminRepository;
-    }
-
-    public void setConsoleColors(ConsoleColors consoleColors) {
-        this.consoleColors = consoleColors;
-    }
 
 
 }

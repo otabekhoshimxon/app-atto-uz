@@ -5,10 +5,16 @@ import com.company.service.CardService;
 import com.company.service.TerminalServise;
 import com.company.utils.ConsoleColors;
 import com.company.utils.Scan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class AdminController  {
+    @Autowired
      private ConsoleColors consoleColors;
+    @Autowired
      private CardService cardService;
+    @Autowired
      private TerminalServise terminalServise;
 
 
@@ -127,16 +133,4 @@ public class AdminController  {
     }
 
 
-
-    public void setConsoleColors(ConsoleColors consoleColors) {
-        this.consoleColors = consoleColors;
-    }
-
-    public void setTerminalServise(TerminalServise terminalServise) {
-        this.terminalServise = terminalServise;
-    }
-
-    public void setCardService(CardService cardService) {
-        this.cardService = cardService;
-    }
 }
