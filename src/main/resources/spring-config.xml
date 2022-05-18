@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+
+    ">
+    <!--controllers-->
+    <bean name="mainController" class="com.company.controller.MainController">
+        <property name="consoleColors" ref="consoleColor"></property>
+        <property name="mainServise" ref="mainServise"></property>
+    </bean>
+
+
+    <bean name="adminController" class="com.company.controller.AdminController">
+        <property name="consoleColors" ref="consoleColor"></property>
+        <property name="cardService" ref="cardService"></property>
+        <property name="terminalServise" ref="terminalServise"></property>
+
+    </bean>
+
+    <!--controllers-->
+    <bean name="consoleColor" class="com.company.utils.ConsoleColors">
+
+
+
+
+    <!--repository-->
+
+    </bean>
+
+    <bean name="dbConnection" class="com.company.repository.DbConnection">
+
+    </bean>
+
+    <bean name="adminRepository" class="com.company.repository.AdminRepository">
+        <property name="dbConnection" ref="dbConnection"></property>
+
+    </bean>
+
+    <bean name="cardRepository" class="com.company.repository.CardRepository">
+        <property name="dbConnection" ref="dbConnection"></property>
+
+    </bean>
+    <bean name="terminalRepository" class="com.company.repository.TerminalRepository">
+        <property name="dbConnection" ref="dbConnection"></property>
+
+    </bean>
+
+    <!--repository-->
+
+    <!--servise-->
+    <bean name="adminServise" class="com.company.service.AdminServise">
+        <property name="cardRepository" ref="cardRepository"></property>
+        <property name="consoleColors" ref="consoleColor"></property>
+        <property name="creditCardNumberGenerator" ref="creditCardNumberGenerator"></property>
+    </bean>
+    <bean name="creditCardNumberGenerator" class="com.company.utils.CreditCardNumberGenerator">
+
+
+    </bean>
+
+
+
+
+    <bean name="mainServise" class="com.company.service.MainServise">
+        <property name="consoleColors" ref="consoleColor"></property>
+        <property name="adminRepository" ref="adminRepository"></property>
+        <property name="adminController" ref="adminController"></property>
+
+    </bean>
+
+    <bean name="terminalServise" class="com.company.service.TerminalServise">
+        <property name="terminalRepository" ref="terminalRepository"></property>
+        <property name="consoleColors" ref="consoleColor"></property>
+
+    </bean>
+
+    <bean name="cardService" class="com.company.service.CardService">
+        <property name="consoleColors" ref="consoleColor"></property>
+        <property name="cardRepository" ref="cardRepository"></property>
+        <property name="creditCardNumberGenerator" ref="creditCardNumberGenerator"></property>
+    </bean>
+
+</beans>
