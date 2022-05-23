@@ -5,111 +5,60 @@ import com.company.entity.Terminal;
 import com.company.enums.CardStatus;
 import com.company.service.TerminalServise;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
 @Repository
 public class TerminalRepository {
     @Autowired
-    private DbConnection dbConnection;
-
+    private JdbcTemplate connection;
     public boolean isAvailable(String name) {
-        Connection connection = dbConnection.getConnection();
         String sql = "SELECT  * FROM terminal where name='" + name + "';";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet.next()) {
-                return true;
-            }
-            connection.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-
-
+        Terminal terminal = connection.queryForObject(sql, new BeanPropertyRowMapper<>(Terminal.class));
+        return Objects.nonNull(terminal);
     }
 
 
     public boolean createTerminal(String s, String address) {
-        Connection connection = dbConnection.getConnection();
+
         String sql="INSERT INTO terminal (name,address)" +
                 "values (?,?);";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,s);
-            preparedStatement.setString(2,address);
-            boolean execute = preparedStatement.execute();
-            connection.close();
-            return execute;
+        PreparedStatementSetter  preparedStatementSetter=new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1,s);
+                ps.setString(2,address);
 
+            }
+        };
+        int update = connection.update(sql, preparedStatementSetter);
 
+        if (update != 0) {
+            return true;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-
+        return false;
 
     }
 
     public List<Terminal> getTerminals() {
-        Connection connection = dbConnection.getConnection();
+
         String sql = "SELECT * FROM terminal ;";
-        try {
-            List<Terminal> terminalList = new LinkedList<>();
+        List<Terminal> query = connection.query(sql, new BeanPropertyRowMapper<>(Terminal.class));
+        return query;
+    }
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                Terminal terminal = new Terminal();
-                terminal.setId(id);
-                terminal.setName(name);
-                terminal.setAddress(address);
-                terminalList.add(terminal);
-
-
-            }
-            connection.close();
-            return terminalList;
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }   public Terminal getTerminalByName(String name) {
-        Connection connection = dbConnection.getConnection();
+    public Terminal getTerminalByName(String name) {
         String sql = "SELECT * FROM terminal where name='"+name+"';";
-        try {
-            List<Terminal> terminalList = new LinkedList<>();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name1 = resultSet.getString("name");
-                String address = resultSet.getString("address");
-                Terminal terminal = new Terminal();
-                terminal.setId(id);
-                terminal.setName(name1);
-                terminal.setAddress(address);
-              return terminal;
-            }
-            connection.close();
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-     return null;
-
+        Terminal terminal = connection.queryForObject(sql, new BeanPropertyRowMapper<>(Terminal.class));
+        return terminal;
     }
 
 }

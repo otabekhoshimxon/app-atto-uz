@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 public class CardService {
     @Autowired
-
     private CreditCardNumberGenerator creditCardNumberGenerator;
     @Autowired
     private CardRepository cardRepository;
@@ -61,6 +60,19 @@ public class CardService {
             consoleColors.print(ConsoleColors.GREEN_BOLD," "+card.getId()+"  "+ConsoleColors.BLUE+"  "+card.getCardNumber()+ConsoleColors.YELLOW_BOLD+"    "+card.getBalance()+((card.getCardStatus().equals(CardStatus.ACTIVE)) ?ConsoleColors.GREEN_BOLD+"                  "+card.getCardStatus():ConsoleColors.RED_BOLD+"                  "+card.getCardStatus()));
         }
     }
+    public void showCardById(int i)
+    {
+        Card card = cardRepository.getCardById(i);
+        if (card!=null)
+        {
+            consoleColors.print(ConsoleColors.GREEN_BOLD," ID "+ConsoleColors.BLUE+" "+" CARD NUMBER "+ConsoleColors.YELLOW_BOLD+"        CARD BALANCE "+ConsoleColors.YELLOW_BOLD+"         CARD STATUS ");
+
+            consoleColors.print(ConsoleColors.GREEN_BOLD," "+card.getId()+"  "+ConsoleColors.BLUE+"  "+card.getCardNumber()+ConsoleColors.YELLOW_BOLD+"    "+card.getBalance()+((card.getCardStatus().equals(CardStatus.ACTIVE)) ?ConsoleColors.GREEN_BOLD+"                  "+card.getCardStatus():ConsoleColors.RED_BOLD+"                  "+card.getCardStatus()));
+
+        }
+
+    }
+
 
     public void changeStatusCard(String s) {
         boolean b = cardRepository.refreshCardStatus(s);
@@ -74,10 +86,6 @@ public class CardService {
 
         }
     }
-    public void setCreditCardNumberGenerator(CreditCardNumberGenerator creditCardNumberGenerator) {
-        this.creditCardNumberGenerator = creditCardNumberGenerator;
-    }
-
 
 
 }

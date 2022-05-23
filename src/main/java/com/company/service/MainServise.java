@@ -26,10 +26,6 @@ public class MainServise {
 
     }
 
-    public void transfer() {
-
-
-    }
 
     public void showLogin(String login,String password)
     {
@@ -52,10 +48,7 @@ public class MainServise {
     {
         return Objects.isNull(login)&& Objects.isNull(password);
     }
-    public void fillBalance() {
 
-
-    }
 
 
 

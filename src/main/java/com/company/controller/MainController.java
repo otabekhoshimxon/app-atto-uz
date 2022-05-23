@@ -64,7 +64,7 @@ public class MainController extends Thread {
     }
 
     public void getFillBalancePage() {
-        mainServise.fillBalance();
+        transferService.fillBalance();
     }
 
 }

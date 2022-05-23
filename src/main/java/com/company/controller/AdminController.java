@@ -1,12 +1,18 @@
 package com.company.controller;
 
+import com.company.entity.Card;
+import com.company.entity.Transfer;
+import com.company.repository.TransferRepository;
 import com.company.service.AdminServise;
 import com.company.service.CardService;
 import com.company.service.TerminalServise;
+import com.company.service.TransferService;
 import com.company.utils.ConsoleColors;
 import com.company.utils.Scan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 public class AdminController  {
@@ -16,7 +22,8 @@ public class AdminController  {
      private CardService cardService;
     @Autowired
      private TerminalServise terminalServise;
-
+    @Autowired
+     private TransferService transferService;
 
 
 
@@ -78,6 +85,22 @@ public class AdminController  {
                getTerminalList();
                 break;
             }
+            case 7 -> {
+               getAdminCard();
+                break;
+            }
+           case 8 -> {
+               getTransferList();
+                break;
+            }
+            case 9 -> {
+               getTransferListByNumberCard();
+                break;
+            }
+            case 10 -> {
+               getTransferListByTerminalName();
+                break;
+            }
 
 
 
@@ -86,9 +109,26 @@ public class AdminController  {
 
     }
 
+    private void getTransferListByTerminalName() {
+     transferService.getTransferListByTerminalName();
+    }
+
+    private void getTransferListByNumberCard() {
+
+        transferService.getTransferListByCardNumber();
+
+
+    }
+
+    private void getAdminCard() {
+        cardService.showCardById(1);
+    }
+
+    private void getTransferList() {
+        transferService.getAllTransfers();
+    }
+
     private void getTerminalList() {
-
-
         terminalServise.getAllTerminals();
 
     }

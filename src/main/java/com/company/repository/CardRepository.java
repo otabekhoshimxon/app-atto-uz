@@ -3,6 +3,9 @@ package com.company.repository;
 import com.company.entity.Card;
 import com.company.enums.CardStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -11,139 +14,114 @@ import java.util.List;
 @Repository
 public class CardRepository {
     @Autowired
-    private  DbConnection dbConnection;
-
-
-
-
-
-
-
-
-
-
-
-
+    private JdbcTemplate connection;
 
 
     public boolean hasCardNumber(String cardNumber) {
-        Connection connection = dbConnection.getConnection();
-        String sql="SELECT * FROM card where card_number=? ;";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cardNumber);
-            boolean execute = preparedStatement.execute();
-            connection.close();
-            return execute;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+        String sql = "SELECT count(*) FROM card where card_number='"+cardNumber+"' ;";
+
+        int update = connection.queryForObject(sql,Integer.class);
+
+        if (update != 0) {
+            return true;
+
         }
+        return false;
+
 
     }
 
     public boolean addCard(Card card) {
-        Connection connection = dbConnection.getConnection();
-        String sql="INSERT INTO card (card_number,balance)" +
+
+        String sql = "INSERT INTO card (card_number,balance)" +
                 "values (?,?);";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,card.getCardNumber());
-            preparedStatement.setDouble(2,card.getBalance());
-            boolean execute = preparedStatement.execute();
-            connection.close();
-            return execute;
 
+        PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, card.getCardNumber());
+                ps.setDouble(2, card.getBalance());
+            }
+        };
+        int update = connection.update(sql, preparedStatementSetter);
 
+        if (update != 0) {
+            return true;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        return false;
 
 
     }
 
-    public List<Card> getCardList()
-    {
-        Connection connection = dbConnection.getConnection();
-        String sql="SELECT * FROM card ;";
-        try {
-            List<Card> cards=new LinkedList<>();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next())
-            {
-                String id = resultSet.getString("id");
-                String card_number = resultSet.getString("card_number");
-                double balance = resultSet.getDouble("balance");
-                String card_status = resultSet.getString("card_status");
-                Card card=new Card();
-                card.setId(Integer.valueOf(id));
-                card.setCardNumber(card_number);
-                card.setBalance(balance);
-                card.setCardStatus(CardStatus.valueOf(card_status));
-                cards.add(card);
+    public List<Card> getCardList() {
+        String sql = "SELECT * FROM card ;";
+        List<Card> query = connection.query(sql, new BeanPropertyRowMapper<>(Card.class));
+        return query;
+    }
 
 
-            }
-            connection.close();
-            return  cards;
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }   public Card getCardByNumber(String number)
-    {
-        Connection connection = dbConnection.getConnection();
-        String sql="SELECT * FROM card where card_number='"+number+"'  ;";
-        try {
-
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet.next())
-            {
-                String id = resultSet.getString("id");
-                String card_number = resultSet.getString("card_number");
-                double balance = resultSet.getDouble("balance");
-                String card_status = resultSet.getString("card_status");
-                Card card=new Card();
-                card.setId(Integer.valueOf(id));
-                card.setCardNumber(card_number);
-                card.setBalance(balance);
-                card.setCardStatus(CardStatus.valueOf(card_status));
-                return card;
-            }
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-
+    public Card getCardByNumber(String number) {
+        String sql = "SELECT * FROM card where card_number='" + number + "'  ;";
+        Card card = connection.queryForObject(sql, new BeanPropertyRowMapper<>(Card.class));
+        return card;
     }
 
     public boolean refreshCardStatus(String s) {
         Card cardByNumber = getCardByNumber(s);
-        if (cardByNumber==null)
-        {
+        if (cardByNumber == null) {
             return false;
         }
 
-        Connection connection = dbConnection.getConnection();
-        String sql="UPDATE card set card_status=? where card_number=?;";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, String.valueOf(cardByNumber.getCardStatus().equals(CardStatus.ACTIVE)?CardStatus.BLOCKED:CardStatus.ACTIVE));
-            preparedStatement.setString(2,cardByNumber.getCardNumber());
-            boolean execute = preparedStatement.execute();
-            connection.close();
-            return execute;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        String sql = "UPDATE card set card_status=? where card_number=?;";
+        PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, String.valueOf(cardByNumber.getCardStatus().equals(CardStatus.ACTIVE) ? CardStatus.BLOCKED : CardStatus.ACTIVE));
+                ps.setString(2, cardByNumber.getCardNumber());
+            }
+        };
+        int update = connection.update(sql, preparedStatementSetter);
 
+        if (update != 0) {
+            return true;
+
+        }
+        return false;
+    }
+
+    public boolean fillBalanceCard(String cardNumber, double v) {
+
+        Card cardByNumber = getCardByNumber(cardNumber);
+        if (cardByNumber == null) {
+            return false;
+        }
+        String sql = "UPDATE card set balance=? where card_number=?;";
+
+
+        PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setDouble(1, v);
+                ps.setString(2, cardNumber);
+            }
+        };
+        int update = connection.update(sql, preparedStatementSetter);
+
+        if (update != 0) {
+            return true;
+
+        }
+        return false;
 
     }
+
+    public Card getCardById(int i) {
+        String sql = "SELECT * FROM card where id='" + i + "'  ;";
+        Card card = connection.queryForObject(sql, new BeanPropertyRowMapper<>(Card.class));
+        return  card;
+
+    }
+
 }

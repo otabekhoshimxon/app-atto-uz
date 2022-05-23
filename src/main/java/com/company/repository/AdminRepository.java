@@ -1,30 +1,32 @@
 package com.company.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.List;
+
 @Repository
 public class AdminRepository {
     @Autowired
-    private DbConnection dbConnection;
+    private JdbcTemplate connection;
 
 
     public boolean isAdmin(String login, String password) {
-        Connection connection = dbConnection.getConnection();
-        String sql = "SELECT  * FROM admin where login='" + login + "' and password='" + password + "';";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            if (resultSet.next()) {
-                return true;
-            }
-            connection.close();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        String sql = "SELECT  COUNT (*)FROM admin where login='" + login + "' and password='" + password + "';";
+        Integer integer = connection.queryForObject(sql,Integer.class);
+        if (integer!=0)
+        {
+            return true;
+
         }
         return false;
+
+
     }
 
 }
