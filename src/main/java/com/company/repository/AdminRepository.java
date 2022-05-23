@@ -13,20 +13,14 @@ import java.util.List;
 public class AdminRepository {
     @Autowired
     private JdbcTemplate connection;
-
-
     public boolean isAdmin(String login, String password) {
-
         String sql = "SELECT  COUNT (*)FROM admin where login='" + login + "' and password='" + password + "';";
         Integer integer = connection.queryForObject(sql,Integer.class);
         if (integer!=0)
         {
             return true;
-
         }
         return false;
-
-
     }
 
 }

@@ -4,7 +4,6 @@ import com.company.entity.Card;
 import com.company.entity.Terminal;
 import com.company.entity.Transfer;
 import com.company.repository.CardRepository;
-import com.company.repository.DbConnection;
 import com.company.repository.TerminalRepository;
 import com.company.repository.TransferRepository;
 import com.company.utils.ConsoleColors;

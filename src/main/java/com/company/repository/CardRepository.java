@@ -15,8 +15,6 @@ import java.util.List;
 public class CardRepository {
     @Autowired
     private JdbcTemplate connection;
-
-
     public boolean hasCardNumber(String cardNumber) {
 
         String sql = "SELECT count(*) FROM card where card_number='"+cardNumber+"' ;";
@@ -25,11 +23,8 @@ public class CardRepository {
 
         if (update != 0) {
             return true;
-
         }
         return false;
-
-
     }
 
     public boolean addCard(Card card) {
@@ -98,8 +93,6 @@ public class CardRepository {
             return false;
         }
         String sql = "UPDATE card set balance=? where card_number=?;";
-
-
         PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps) throws SQLException {
@@ -111,17 +104,14 @@ public class CardRepository {
 
         if (update != 0) {
             return true;
-
         }
         return false;
-
     }
 
     public Card getCardById(int i) {
         String sql = "SELECT * FROM card where id='" + i + "'  ;";
         Card card = connection.queryForObject(sql, new BeanPropertyRowMapper<>(Card.class));
         return  card;
-
     }
 
 }

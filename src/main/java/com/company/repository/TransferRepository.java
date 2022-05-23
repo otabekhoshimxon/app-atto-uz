@@ -8,16 +8,13 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
 import java.time.Instant;
-import java.util.LinkedList;
 import java.util.List;
 @Repository
 public class TransferRepository {
     @Autowired
     private JdbcTemplate connection;
-
     public boolean transferMoney(Integer cardId, Integer terminalId, Double amountMoney, double balance) {
 
         String sql="BEGIN;" +
@@ -39,34 +36,20 @@ public class TransferRepository {
             }
         };
         int update = connection.update(sql, preparedStatementSetter);
-
-        if (update != 0) {
-            return true;
-
-        }
-        return false;
-
+        return update != 0;
     }
-
-
-
     public List<Transfer> getTransferList() {
         String sql="SELECT * from get_transfer_list";
         List<Transfer> query = connection.query(sql, new BeanPropertyRowMapper<>(Transfer.class));
         return query;
     }
-
-
     public boolean fillBalance(Card cardByNumber, Terminal terminal, Double money) {
-
-
         String sql="BEGIN;" +
                 " INSERT INTO transfer (card_id,terminal_id,created_date,amount)" +
                 "values (?,?,?,?);" +
                 "UPDATE card set balance=? where id=?;" +
                 ";" +
                 "COMMIT ;";
-
         PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement preparedStatement) throws SQLException {
@@ -80,15 +63,7 @@ public class TransferRepository {
         };
         int update = connection.update(sql, preparedStatementSetter);
 
-        if (update != 0) {
-            return true;
-
+       return update != 0;
         }
-        return false;
-
-        }
-
-
-
     }
 
