@@ -6,18 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8fa5ca0d-d62f-4236-af02-dc2fc10c6dad" name="Changes" comment="one">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/config/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/config/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/entity/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/entity/Transfer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/repository/AdminRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/repository/AdminRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/repository/CardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/repository/CardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/repository/TerminalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/repository/TerminalRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/repository/TransferRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/repository/TransferRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/service/CardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/service/CardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/service/MainServise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/service/MainServise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/company/service/TransferService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/company/service/TransferService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +99,9 @@
       <workItem from="1653037479273" duration="6301000" />
       <workItem from="1653091457503" duration="583000" />
       <workItem from="1653279411888" duration="593000" />
-      <workItem from="1653286998435" duration="2242000" />
+      <workItem from="1653286998435" duration="3275000" />
+      <workItem from="1653291670193" duration="1786000" />
+      <workItem from="1653296796770" duration="1010000" />
     </task>
     <task id="LOCAL-00001" summary="one">
       <created>1652839866762</created>
@@ -127,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652893945086</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="one">
+      <created>1653289530820</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1653289530820</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
